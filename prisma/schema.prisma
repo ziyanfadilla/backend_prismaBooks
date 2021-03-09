@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model buku {
+  id_buku      Int    @id @default(autoincrement())
+  judul        String @db.VarChar(10)
+  pengarang    String @db.VarChar(100)
+  penerbit     String @db.VarChar(100)
+  tahun_terbit String @db.VarChar(100)
+  isbn         Int
+  keterangan   String @db.Text
+  foto         String @db.Text
+}
+
+model kategori {
+  id_kategori   Int    @id @default(autoincrement())
+  nama_kategori String @db.VarChar(100)
+}
+
+model pinjaman {
+  id_pinjaman    Int      @id @default(autoincrement())
+  awal_pinjaman  DateTime @db.Date
+  akhir_pinjaman DateTime @db.Date
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  nama     String @db.VarChar(100)
+  username String @db.VarChar(50)
+  email    String @db.VarChar(100)
+  password Int
+}
