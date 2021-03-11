@@ -1,17 +1,18 @@
 const { PrismaClient } = require("@prisma/client");
-const express = require("express");
 const prisma = new PrismaClient();
+const form = require("../helpers/form");
+
 
 module.exports = {
   getBooks: (req, res) =>{
-    const{ body } = req;
-    prisma.books
+    prisma.buku
     .findMany()
     .then((data) =>{
-    FormData.formSucces(res, data, 200);
+      form.formSuccess(res, data, 200);
     })
     .catch((err)=>{
       form.formError(res, err, 500);
+      console.log("eror wa"+err);
     });
 
   },
@@ -19,8 +20,7 @@ module.exports = {
     const { body } = req;
     const newData = {
       ...body,
-      isbn: Number(body.isbn),
-      // foto: Number(body.foto),
+      isbn: parseInt(body.isbn)
     };
     
     prisma.buku
@@ -44,6 +44,47 @@ module.exports = {
         console.log(err);
       });
   },
-  
+
+  updateBooks: (req, res) =>{
+    const {id } = req.params;
+    const { body } = req;
+    // const id_buku = parseInt(body.id_buku);
+
+    prisma.buku
+    .update({
+      data: {
+        ...body,
+        isbn: parseInt(body.isbn)
+      },
+      where : {
+        id_buku : parseInt(id),
+      },
+    })
+    .then((data) =>{
+      form.formSuccess(res, data, 200);
+    })
+
+    .catch((err) => {
+      form.formError(res, err,500);
+    });
+  },
+
+  deleteBooks: (req, res) => {
+    const {id} = req.params;
+    prisma.buku
+    .delete({
+      where : {
+        id_buku: parseInt(id),
+      },
+
+    })
+    .then((data) => {
+      form.formSuccess(res, data, 200);
+    })
+    .catch((err)=>{
+      form.formError(res, err, 500);
+    });
+  },
+
 
 };
