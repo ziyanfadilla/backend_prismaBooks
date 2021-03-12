@@ -12,5 +12,5 @@ app.use('/', mainRouters);
 
 
 app.listen(3001, () => {
-    console.log("server berjalann ");
+    console.log("server berjalan");
 });

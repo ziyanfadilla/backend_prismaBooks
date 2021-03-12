@@ -7,10 +7,10 @@ module.exports = {
         const bearerToken = req.header(" akses token ");
 
         if (!bearerToken) {
-            form.formError(res, "silakan login");
+            form.formSuccess(res, "silakan login", 500);
             
         } else {
-            const token  = bearerToken.split(" ")[1];
+            const token  = bearerToken.split("")[1];
             try{
                 const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
                 req.decodedToken = decodedToken;

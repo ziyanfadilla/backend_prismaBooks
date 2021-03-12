@@ -39,10 +39,10 @@ module.exports = {
         .update({
             data : body,
             where : {
-                id : parseInt(id)
+                id_kategori : parseInt(id)
             }
         })
-        .then((dat)=> {
+        .then((data)=> {
             form.formSuccess(res,data, 200);
         })
         .catch((err) =>{
@@ -54,7 +54,7 @@ module.exports = {
         const {id} = req.params;
         prisma.kategori.delete({
             where: {
-                id : parseInt(id)
+                id_kategori: parseInt(id)
             }
         })
         .then((data) =>{

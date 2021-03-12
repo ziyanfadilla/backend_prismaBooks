@@ -30,8 +30,9 @@ module.exports = {
     signUp: (req, res) => {
         const {body} = req;
         const emailUsername = [req.body.email, req.body.username];
+        
         if (req.body.password !== req.body.confirm_password) {
-            form.formError(res, "password tidak sama", 403);
+            form.formError(res, "password salah", 403);
 
             
         }else{
@@ -50,7 +51,7 @@ module.exports = {
                             data : newBody,
                         })
                         .then((data) => {
-                            form.formSucces(res, data, 200);
+                            form.formSuccess(res, data, 200);
                         })
                         .catch((error) => {
                             form.formError(res, error, 500);
@@ -82,8 +83,8 @@ module.exports = {
                     const payload ={
                         id : data.id,
                         name : data.name,
-                        username : data,username,
-                        email : data, email
+                        username : data.username,
+                        email : data.email
                     };
                     const token = jwt.sign(payload,process.env.SECRET_KEY,{
                         expiresIn : 86400,
@@ -96,7 +97,7 @@ module.exports = {
                         token : token,
                     };
 
-                    form.formError(res, newData, 200);
+                    form.formSuccess(res, newData, 200);
                 }
             }
         })

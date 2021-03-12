@@ -34,5 +34,5 @@ model users {
   nama     String @db.VarChar(100)
   username String @db.VarChar(50)
   email    String @db.VarChar(100)
-  password Int
+  password String @db.Text
 }
