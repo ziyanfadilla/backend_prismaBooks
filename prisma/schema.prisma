@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -35,9 +35,6 @@ model pinjaman {
   status         String   @db.VarChar(10)
   buku           buku     @relation(fields: [id_buku], references: [id_buku])
   users          users    @relation(fields: [id_users], references: [id])
-
-  @@index([id_buku], name: "fk_buku")
-  @@index([id_users], name: "fk_users")
 }
 
 model users {
@@ -55,8 +52,6 @@ model rating {
   rating            Int
   buku              Int
   buku_bukuTorating buku @relation(fields: [buku], references: [id_buku])
-
-  @@index([buku], name: "buku")
 }
 
 model diskusi {
@@ -66,7 +61,4 @@ model diskusi {
   users                Int
   buku_bukuTodiskusi   buku   @relation(fields: [buku], references: [id_buku])
   users_diskusiTousers users  @relation(fields: [users], references: [id])
-
-  @@index([buku], name: "fk_buku")
-  @@index([users], name: "fk_users")
 }
