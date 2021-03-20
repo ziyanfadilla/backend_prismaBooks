@@ -16,7 +16,9 @@ model buku {
   isbn         Int
   keterangan   String     @db.Text
   foto         String     @db.Text
+  diskusi      diskusi[]
   pinjaman     pinjaman[]
+  rating       rating[]
 }
 
 model kategori {
@@ -30,6 +32,7 @@ model pinjaman {
   akhir_pinjaman DateTime @db.Date
   id_buku        Int
   id_users       Int
+  status         String   @db.VarChar(10)
   buku           buku     @relation(fields: [id_buku], references: [id_buku])
   users          users    @relation(fields: [id_users], references: [id])
 
@@ -43,5 +46,27 @@ model users {
   username String     @db.VarChar(50)
   email    String     @db.VarChar(100)
   password String     @db.Text
+  diskusi  diskusi[]
   pinjaman pinjaman[]
+}
+
+model rating {
+  id_rating         Int  @id @default(autoincrement())
+  rating            Int
+  buku              Int
+  buku_bukuTorating buku @relation(fields: [buku], references: [id_buku])
+
+  @@index([buku], name: "buku")
+}
+
+model diskusi {
+  id_diskusi           Int    @id @default(autoincrement())
+  diskusi              String @db.Text
+  buku                 Int
+  users                Int
+  buku_bukuTodiskusi   buku   @relation(fields: [buku], references: [id_buku])
+  users_diskusiTousers users  @relation(fields: [users], references: [id])
+
+  @@index([buku], name: "fk_buku")
+  @@index([users], name: "fk_users")
 }
